@@ -1,52 +1,21 @@
-$(document).ready(function () {
+// Import the ORM to create functions that will interact with the database.
+var orm = require("../config/orm.js");
 
-    $.get("/api/burgers");
 
-    $("#burgerBtn").on("click", function (event) {
-        event.preventDefault();
-        var burgerItem = {
-            burgerName: $("#burgerInput").val().trim()
-        }
-        $("#burgerInput").val("");
+// create the code that will call the ORM functions using burger specific input for the ORM.
+var burger = {
+    selectAll: function (allCb) {
+        orm.selectAll("burgers", allCb);
+    },
+    insertOne: function (cols, vals, createCb) {
+        orm.insertOne("burgers", cols, vals, createCb);
+    },
+    updateOne: function (objColVals, condition, updateCb) {
+        orm.updateOne("burgers", objColVals, condition, updateCb)
+    },
+    delete: function (condition, deleteCb) {
+        orm.delete("burgers", condition, deleteCb)
+    },
+};
 
-        $.post("/api/burgers", burgerItem).then(function (data) {
-            var listItem = $('<li>').addClass("list-group-item d-flex justify-content-between align-items-center")
-                .html(burgerItem.burgerName + `<button class="btn btn-danger devourBtn" flavor="${data}">Devour</button>`)
-                .attr('id', data);
-            $('#notEaten').append(listItem);
-            $(".devourBtn").click(function () {
-                var id = "#" + $(this).attr('flavor');
-                console.log(id);
-                var burger = { route: $(this).attr('flavor') };
-                var btn = $(this);
-                console.log(id)
-
-                $.ajax({
-                    method: 'PUT',
-                    url: '/api/burgers',
-                    data: burger
-                }).then(function (data) {
-                    $(id).appendTo('#eaten');
-                    btn.remove();
-                })
-            })
-        })
-    })
-
-    $(".devourBtn").on('click', function () {
-        var id = "#" + $(this).attr('flavor');
-        console.log(id);
-        var burger = { route: $(this).attr('flavor') };
-        var btn = $(this);
-        console.log(id)
-
-        $.ajax({
-            method: 'PUT',
-            url: '/api/burgers',
-            data: burger
-        }).then(function (data) {
-            $(id).appendTo('#eaten');
-            btn.remove();
-        })
-    });
-})
+module.exports = burger;
