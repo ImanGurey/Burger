@@ -61,3 +61,4 @@ router.delete("/api/burgers/:id", function (request, response) {
 });
 
 // Export routes for server.js to use.
+module.exports = router;
