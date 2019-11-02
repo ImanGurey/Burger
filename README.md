@@ -14,10 +14,10 @@ This application is hosted on Heroku! Click the link below for a demo!
 
 *Node.js
 
-*Express NPM Package
+* Express NPM Package
 
-*Body-Parser NPM Package
+* Body-Parser NPM Package
 
-*Handlebars NPM Package
+* Handlebars NPM Package
 
-*mySQL NPM Package
+* mySQL NPM Package
